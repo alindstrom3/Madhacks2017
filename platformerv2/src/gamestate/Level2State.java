@@ -8,19 +8,18 @@ import entities.Player;
 import game.GamePanel;
 import mapping.Map;
 
-public class Level1State extends GameState{
-	
+public class Level2State extends GameState {
 	private Player player;
 	private Map map;
 	
-	public Level1State(GameStateManager gsm){
+	public Level2State(GameStateManager gsm){
 		super(gsm);
 	}
 
 	
 	public void init() {
 		player = new Player(30, 30);
-		map = new Map("/Maps/map1.map");
+		map = new Map("/Maps/map2.map");
 		
 		xOffset = -200;
 		yOffset = -400;
@@ -37,7 +36,7 @@ public class Level1State extends GameState{
 		map.draw(g);
 		g.setFont(new Font("Arial", Font.BOLD, 42));
 		g.setColor(Color.DARK_GRAY);
-		g.drawString("Level: 1", GamePanel.WIDTH / 2 + 250, 50);
+		g.drawString("Level: 2", GamePanel.WIDTH / 2 + 250, 50);
 		g.drawString("Attempts: " + GameState.attempts, GamePanel.WIDTH / 2 - 440, 50);
 	}
 
@@ -45,6 +44,7 @@ public class Level1State extends GameState{
 	public void keyPressed(int k) {
 		player.kePressed(k);		
 	}
+
 	
 	public void keyReleased(int k) {
 		player.keyReleased(k);		

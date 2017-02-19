@@ -1,8 +1,6 @@
 package physics;
 
 import java.awt.Point;
-import java.awt.Rectangle;
-
 import objects.Block;
 
 public class Collision {

@@ -7,10 +7,8 @@ import java.awt.event.KeyEvent;
 
 import game.GamePanel;
 import gamestate.GameState;
-import gamestate.GameStateManager;
-import gamestate.Level1State;
+import gamestate.IntermediateWinState;
 import gamestate.LoseState;
-import gamestate.WinState;
 import objects.Block;
 import physics.Collision;
 
@@ -47,6 +45,10 @@ public class Player{
 		
 		int ix = (int)x;
 		int iy = (int)y;
+		
+		if (GameState.yOffset > 3500) {
+			GameState.gsm.states.push(new LoseState(GameState.gsm));
+		}
 
 		for(int i =0; i<b.length; i++){
 			for(int j = 0; j < b[0].length; j++){
@@ -58,14 +60,14 @@ public class Player{
 									ix + width + (int)GameState.xOffset, iy + height + (int)GameState.yOffset -1), b[i][j])){
 						
 						right = false;
-						GameState.gsm.states.push(new WinState(GameState.gsm));
+						GameState.gsm.states.push(new IntermediateWinState(GameState.gsm));
 					}
 
 					//left
 					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + (int)GameState.yOffset + 2), b[i][j])
 							|| Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + height + (int)GameState.yOffset -1), b[i][j])){
 						left =false;
-						GameState.gsm.states.push(new WinState(GameState.gsm));    
+						GameState.gsm.states.push(new IntermediateWinState(GameState.gsm));    
 					}
 
 					//top
@@ -73,7 +75,7 @@ public class Player{
 							|| Collision.playerBlock(new Point(ix + width + (int)GameState.xOffset-2, iy + (int)GameState.yOffset), b[i][j])){
 						jumping = false;
 						falling = true;
-						GameState.gsm.states.push(new WinState(GameState.gsm));
+						GameState.gsm.states.push(new IntermediateWinState(GameState.gsm));
 					}
 
 					//bottom
@@ -82,7 +84,7 @@ public class Player{
 						y = b[i][j].getY() - height - GameState.yOffset;
 						falling = false;
 						topCollision = true;
-						GameState.gsm.states.push(new WinState(GameState.gsm));
+						GameState.gsm.states.push(new IntermediateWinState(GameState.gsm));
 					}else{
 						if(!topCollision && !jumping){
 							falling = true;

@@ -6,9 +6,11 @@ public abstract class GameState {
 	
 	public static GameStateManager gsm;
 	public static double xOffset, yOffset;
+	public static int currentLevel = 0;
+	public static int attempts = 0;
 	
 	public GameState(GameStateManager gsm){
-		this.gsm = gsm;
+		GameState.gsm = gsm;
 		init();
 	}
 

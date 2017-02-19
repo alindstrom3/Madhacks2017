@@ -1,19 +1,15 @@
 package gamestate;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 import entities.Player;
-import game.GamePanel;
 import mapping.Map;
 
-public class Level1State extends GameState{
-	
+public class Level4State extends GameState {
 	private Player player;
 	private Map map;
 	
-	public Level1State(GameStateManager gsm){
+	public Level4State(GameStateManager gsm) {
 		super(gsm);
 	}
 
@@ -35,16 +31,13 @@ public class Level1State extends GameState{
 	public void draw(Graphics g) {
 		player.draw(g);
 		map.draw(g);
-		g.setFont(new Font("Arial", Font.BOLD, 42));
-		g.setColor(Color.DARK_GRAY);
-		g.drawString("Level: 1", GamePanel.WIDTH / 2 + 250, 50);
-		g.drawString("Attempts: " + GameState.attempts, GamePanel.WIDTH / 2 - 440, 50);
 	}
 
 	
 	public void keyPressed(int k) {
 		player.kePressed(k);		
 	}
+
 	
 	public void keyReleased(int k) {
 		player.keyReleased(k);		

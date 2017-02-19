@@ -24,12 +24,12 @@ public class LoseState extends GameState {
 
 	
 	public void draw(Graphics g) {
-		g.setColor(new Color(50, 150, 200));
+		g.setColor(new Color(200, 100, 50));
 		g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 		
 		for(int i = 0; i < options.length; i++) {
 			if(i == currentSelection){
-				g.setColor(Color.GREEN);
+				g.setColor(Color.RED);
 			}else{
 				g.setColor(Color.WHITE);
 			}
@@ -37,9 +37,9 @@ public class LoseState extends GameState {
 			//g.drawLine(GamePanel.WIDTH/2, 0, GamePanel.WIDTH/2, GamePanel.HEIGHT);
 			g.setFont(new Font("Arial", Font.PLAIN, 72));
 			g.drawString(options[i], GamePanel.WIDTH/2 - 400, 200 + i*150);
-			g.setColor(Color.RED);
-			g.drawString("You Lose!", GamePanel.WIDTH / 2 - 200, 100);
 		}	
+		g.setColor(Color.DARK_GRAY);
+		g.drawString("You Lose!", GamePanel.WIDTH / 2 - 200, 100);
 	}
 
 	
@@ -58,6 +58,8 @@ public class LoseState extends GameState {
 		
 		if(k == KeyEvent.VK_ENTER){
 			if(currentSelection == 0){
+				GameState.currentLevel = 1;
+				GameState.attempts++;
 				gsm.states.push(new Level1State(gsm));
 			}
 			else if(currentSelection == 1) {
