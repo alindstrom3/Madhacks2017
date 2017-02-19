@@ -62,18 +62,22 @@ public class IntermediateWinState extends GameState {
 			if(currentSelection == 0){
 				if (GameState.currentLevel == 1) {
 					GameState.currentLevel = 2;
+					GameState.maxFall = 3500;
 					gsm.states.push(new Level2State(gsm));
 				}
 				else if(GameState.currentLevel == 2) {
 					GameState.currentLevel = 3;
+					GameState.maxFall = 1000;
 					gsm.states.push(new Level3State(gsm));
 				}
 			}
 			else if(currentSelection == 1){
 				if (GameState.currentLevel == 1) {
+					GameState.maxFall = 1000;
 					gsm.states.push(new Level1State(gsm));
 				}
 				else if(GameState.currentLevel == 2) {
+					GameState.maxFall = 3500;
 					gsm.states.push(new Level2State(gsm));
 				}
 			}

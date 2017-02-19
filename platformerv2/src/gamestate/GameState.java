@@ -8,6 +8,7 @@ public abstract class GameState {
 	public static double xOffset, yOffset;
 	public static int currentLevel = 0;
 	public static int attempts = 0;
+	public static int maxFall = 3500;
 	
 	public GameState(GameStateManager gsm){
 		GameState.gsm = gsm;

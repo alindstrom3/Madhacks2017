@@ -60,6 +60,7 @@ public class LoseState extends GameState {
 			if(currentSelection == 0){
 				GameState.currentLevel = 1;
 				GameState.attempts++;
+				GameState.maxFall = 1000;
 				gsm.states.push(new Level1State(gsm));
 			}
 			else if(currentSelection == 1) {

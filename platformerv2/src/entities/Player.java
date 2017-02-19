@@ -24,7 +24,7 @@ public class Player{
 	private int width, height;
 	
 	//Jump Speed
-	private double jumpSpeed = 5;
+	private double jumpSpeed = 5.1;
 	private double currentJumpSpeed = jumpSpeed;
 	
 	//Move Speed
@@ -46,7 +46,7 @@ public class Player{
 		int ix = (int)x;
 		int iy = (int)y;
 		
-		if (GameState.yOffset > 3500) {
+		if (GameState.yOffset > GameState.maxFall) {
 			GameState.gsm.states.push(new LoseState(GameState.gsm));
 		}
 

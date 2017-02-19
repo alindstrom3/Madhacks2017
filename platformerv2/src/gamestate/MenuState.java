@@ -62,6 +62,7 @@ public class MenuState extends GameState {
 		if(k == KeyEvent.VK_ENTER){
 			if(currentSelection == 0){
 				currentLevel = 1;
+				GameState.maxFall = 1000;
 				gsm.states.push(new Level1State(gsm));
 			}
 			else if(currentSelection == 1){
