@@ -60,6 +60,7 @@ public class WinState extends GameState {
 			if(currentSelection == 0){
 				GameState.currentLevel = 1;
 				GameState.maxFall = 1000;
+				GameState.attempts = 0;
 				gsm.states.push(new Level1State(gsm));
 			}
 			else if(currentSelection == 1) {
