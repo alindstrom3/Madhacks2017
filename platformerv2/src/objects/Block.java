@@ -22,8 +22,17 @@ public class Block extends Rectangle {
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
-		if(id != 0) {
+		if (id == 3) {
+			g.setColor(Color.GREEN);
+			g.fillRect(x - (int)GameState.xOffset, y - (int)GameState.yOffset, width, height);
+		}
+		else if (id == 2) {
+			g.setColor(Color.RED);
+			g.fillRect(x - (int)GameState.xOffset, y - (int)GameState.yOffset, width, height);
+		}
+		else 
+			g.setColor(Color.BLACK);
+		if(id != 0 && id != 2 && id != 3) {
 			g.drawImage(Images.blocks[id - 1], x - (int)GameState.xOffset, y - (int)GameState.yOffset, width, height, null);
 		}
 	}

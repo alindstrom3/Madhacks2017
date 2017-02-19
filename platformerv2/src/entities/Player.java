@@ -3,28 +3,34 @@ package entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 import game.GamePanel;
 import gamestate.GameState;
-import jdk.nashorn.internal.ir.Block;
+import gamestate.GameStateManager;
+import gamestate.Level1State;
+import gamestate.LoseState;
+import gamestate.WinState;
+import objects.Block;
 import physics.Collision;
 
-public class Player{
 
+public class Player{
+	
+	//Movement Boolean
 	private boolean right = false, left = false, jumping = false, falling = false;
 	private boolean topCollision = false;
 	
+	//Bounds
 	private double x,y;
 	private int width, height;
-	
-	// move speed
-	private double moveSpeed = 2.5;
 	
 	//Jump Speed
 	private double jumpSpeed = 5;
 	private double currentJumpSpeed = jumpSpeed;
+	
+	//Move Speed
+	private double moveSpeed = 2.5;
 	
 	//Fall Speed
 	private double maxFallSpeed = 5;
@@ -37,46 +43,128 @@ public class Player{
 		this.height = height;
 	}
 	
-	public void tick(objects.Block[][] b){
+	public void tick(Block[][] b){
 		
-		int iX = (int)x;
-		int iY = (int)y;
-		
-		for(int i = 0; i < b.length; i++) {
-			for(int j = 0; j < b[0].length; j++) {
-				if(b[i][j].getID() != 0) {
-					// right
-					if(Collision.playerBlock(new Point(iX + width + (int)GameState.xOffset, iY + (int)GameState.yOffset + 2), b[i][j])
-							|| Collision.playerBlock(new Point(iX + width + (int)GameState.xOffset, iY + height + (int)GameState.yOffset - 1), b[i][j])) {
+		int ix = (int)x;
+		int iy = (int)y;
+
+		for(int i =0; i<b.length; i++){
+			for(int j = 0; j < b[0].length; j++){
+				if(b[i][j].getID() == 3){
+					//right
+					if(Collision.playerBlock(new Point(
+							ix+width +(int)GameState.xOffset, iy + (int)GameState.yOffset + 2), b[i][j])
+							|| Collision.playerBlock(new Point(
+									ix + width + (int)GameState.xOffset, iy + height + (int)GameState.yOffset -1), b[i][j])){
+						
 						right = false;
+						GameState.gsm.states.push(new WinState(GameState.gsm));
 					}
-					
-					// left
-					if (Collision.playerBlock(new Point(iX + (int)GameState.xOffset - 1, iY + (int)GameState.yOffset + 2), b[i][j])
-							|| Collision.playerBlock(new Point(iX + (int)GameState.xOffset - 1, iY + height + (int)GameState.yOffset - 1), b[i][j]))
-						left = false;
-					
-					// top
-					if(Collision.playerBlock(new Point(iX + (int)GameState.xOffset + 1, iY + (int)GameState.yOffset), b[i][j])
-							|| Collision.playerBlock(new Point(iX + width + (int)GameState.xOffset - 2, iY + (int)GameState.yOffset), b[i][j])) {
+
+					//left
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + (int)GameState.yOffset + 2), b[i][j])
+							|| Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + height + (int)GameState.yOffset -1), b[i][j])){
+						left =false;
+						GameState.gsm.states.push(new WinState(GameState.gsm));    
+					}
+
+					//top
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset +1,iy + (int)GameState.yOffset ), b[i][j])
+							|| Collision.playerBlock(new Point(ix + width + (int)GameState.xOffset-2, iy + (int)GameState.yOffset), b[i][j])){
 						jumping = false;
 						falling = true;
+						GameState.gsm.states.push(new WinState(GameState.gsm));
 					}
-					
-					// bottom
-					if(Collision.playerBlock(new Point(iX + (int)GameState.xOffset + 2, iY + height + (int)GameState.yOffset + 1), b[i][j])
-							|| Collision.playerBlock(new Point(iX + width + (int)GameState.xOffset - 2, iY + height + (int)GameState.yOffset + 1), b[i][j])) {
+
+					//bottom
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset +2, iy + height + (int)GameState.yOffset +1), b[i][j])
+							|| Collision.playerBlock(new Point(ix + width + (int)GameState.xOffset -2, iy + height + (int)GameState.yOffset +1), b[i][j])){
 						y = b[i][j].getY() - height - GameState.yOffset;
 						falling = false;
 						topCollision = true;
-					} 
-					else {
-						if(!topCollision && !jumping) {
+						GameState.gsm.states.push(new WinState(GameState.gsm));
+					}else{
+						if(!topCollision && !jumping){
+							falling = true;
+						}
+					}
+				}
+				else if(b[i][j].getID() == 2){
+					//right
+					if(Collision.playerBlock(new Point(
+							ix+width +(int)GameState.xOffset, iy + (int)GameState.yOffset + 2), b[i][j])
+							|| Collision.playerBlock(new Point(
+									ix + width + (int)GameState.xOffset, iy + height + (int)GameState.yOffset -1), b[i][j])){
+						
+						right = false;
+						GameState.gsm.states.push(new LoseState(GameState.gsm));
+					}
+
+					//left
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + (int)GameState.yOffset + 2), b[i][j])
+							|| Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + height + (int)GameState.yOffset -1), b[i][j])){
+						left =false;
+						GameState.gsm.states.push(new LoseState(GameState.gsm));    
+					}
+
+					//top
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset +1,iy + (int)GameState.yOffset ), b[i][j])
+							|| Collision.playerBlock(new Point(ix + width + (int)GameState.xOffset-2, iy + (int)GameState.yOffset), b[i][j])){
+						jumping = false;
+						falling = true;
+						GameState.gsm.states.push(new LoseState(GameState.gsm));
+					}
+
+					//bottom
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset +2, iy + height + (int)GameState.yOffset +1), b[i][j])
+							|| Collision.playerBlock(new Point(ix + width + (int)GameState.xOffset -2, iy + height + (int)GameState.yOffset +1), b[i][j])){
+						y = b[i][j].getY() - height - GameState.yOffset;
+						falling = false;
+						topCollision = true;
+						GameState.gsm.states.push(new LoseState(GameState.gsm));
+					}else{
+						if(!topCollision && !jumping){
+							falling = true;
+						}
+					}
+				}
+				else if(b[i][j].getID() == 1){
+					//right
+					if(Collision.playerBlock(new Point(
+							ix+width +(int)GameState.xOffset, iy + (int)GameState.yOffset + 2), b[i][j])
+							|| Collision.playerBlock(new Point(
+									ix + width + (int)GameState.xOffset, iy + height + (int)GameState.yOffset -1), b[i][j])){
+
+						right = false;
+					}
+
+					//left
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + (int)GameState.yOffset + 2), b[i][j])
+							|| Collision.playerBlock(new Point(ix + (int)GameState.xOffset -1, iy + height + (int)GameState.yOffset -1), b[i][j])){
+						left =false;
+					}
+
+					//top
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset +1,iy + (int)GameState.yOffset ), b[i][j])
+							|| Collision.playerBlock(new Point(ix + width + (int)GameState.xOffset-2, iy + (int)GameState.yOffset), b[i][j])){
+						jumping = false;
+						falling = true;
+					}
+
+					//bottom
+					if(Collision.playerBlock(new Point(ix + (int)GameState.xOffset +2, iy + height + (int)GameState.yOffset +1), b[i][j])
+							|| Collision.playerBlock(new Point(ix + width + (int)GameState.xOffset -2, iy + height + (int)GameState.yOffset +1), b[i][j])){
+						y = b[i][j].getY() - height - GameState.yOffset;
+						falling = false;
+						topCollision = true;
+					}else{
+						if(!topCollision && !jumping){
 							falling = true;
 						}
 					}
 				}
 			}
+
 		}
 		
 		topCollision = false;
@@ -106,6 +194,10 @@ public class Player{
 			if(currentFallSpeed < maxFallSpeed){
 				currentFallSpeed += .1;
 			}
+			
+		}
+		if(!falling){
+			currentFallSpeed = .1;
 		}
 		
 	}

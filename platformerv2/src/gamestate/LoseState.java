@@ -9,7 +9,7 @@ import game.GamePanel;
 
 public class LoseState extends GameState {
 
-	private String[] options = {"Try Again", "Quit"};
+	private String[] options = {"Try Again", "Return to Main Menu", "Quit"};
 	private int currentSelection = 0;
 	
 	public LoseState(GameStateManager gsm) {
@@ -36,7 +36,9 @@ public class LoseState extends GameState {
 			
 			//g.drawLine(GamePanel.WIDTH/2, 0, GamePanel.WIDTH/2, GamePanel.HEIGHT);
 			g.setFont(new Font("Arial", Font.PLAIN, 72));
-			g.drawString(options[i], GamePanel.WIDTH/2 - 75, 200 + i*150);
+			g.drawString(options[i], GamePanel.WIDTH/2 - 400, 200 + i*150);
+			g.setColor(Color.RED);
+			g.drawString("You Lose!", GamePanel.WIDTH / 2 - 200, 100);
 		}	
 	}
 
@@ -56,8 +58,12 @@ public class LoseState extends GameState {
 		
 		if(k == KeyEvent.VK_ENTER){
 			if(currentSelection == 0){
+				gsm.states.push(new Level1State(gsm));
+			}
+			else if(currentSelection == 1) {
 				gsm.states.push(new MenuState(gsm));
-			}else if(currentSelection == 1){
+			}
+			else if(currentSelection == 2){
 				System.exit(0);
 			}
 		}
